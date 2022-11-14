@@ -6,7 +6,7 @@ const createBlog=async function(req,res){
         return res.status(201).send({successful:createdData})
     }
 catch(error){
-    res.status(400).send(error)
+    res.status(400).send({error:error.message})
 }
 }
 module.exports.createBlog=createBlog

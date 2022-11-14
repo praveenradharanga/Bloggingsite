@@ -1,17 +1,14 @@
-
+const {isValidObjectId}=require('mongoose')
 const blogValidator=function(req,res,next){
+  try{
     const data=req.body
     if(!isValidObjectId(data.authorId)){
         return res.status(400).send({error: "authorId is not found"})
     }
-    // else{
-    //     if(!data.title){
-    //         return res.status(400).send({error: "title is not found"})
-    //     }
-    //     if(!data.body){
-    //         return res.status(400).send({error: "body is not found"})
-    //     }
-    // }
     next()
+}
+catch(error){
+    res.status(400).send({error:error.message})
+}
 }
 module.exports.blogValidator=blogValidator
