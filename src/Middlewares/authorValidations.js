@@ -15,7 +15,9 @@ const autorValidator=async (req,res,next)=>{
     if(!["Mr", "Mrs", "Miss"].includes(req.body.title)){
         return  res.status(400).send({err_msg:`title is not valid`})
     }
-    const vEmail=req.body.email.match(/^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$/)
+    ///^[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*$/  
+    const vEmail=req.body.email.match(/^[a-zA-Z][-_.a-zA-Z0-9]{5,29}@g(oogle)?mail.com$/
+    )
     if(!vEmail){
         return  res.status(400).send({err_msg:`Email is not valid`})
     }
