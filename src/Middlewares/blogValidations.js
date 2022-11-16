@@ -15,6 +15,10 @@ const blogValidator=async (req,res,next)=>{
     return res.status(400).send({msg: "Author is not registered"})
     }
 
+    if(req.body.authorId!=req.abc.authorId){
+        return res.status(400).send({msg: "Unauthorised"}) 
+    }
+
     const mandatoryFields=["title","body","tags","category","subcategory"]
     const isAvailable = (data)=>{
         if(!req.body[data]){

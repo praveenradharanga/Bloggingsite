@@ -5,6 +5,7 @@ const autorValidator=async (req,res,next)=>{
         if(!req.body[data]){
             return false
         }
+            
         return true
     }
     for(let i of mandatoryFields){
