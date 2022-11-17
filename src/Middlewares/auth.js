@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const { isValidObjectId } = require("mongoose");
 const blogModel= require("../Models/blogModel")
 const mid1= async (req,res,next)=>{
     try{
@@ -6,9 +7,10 @@ const mid1= async (req,res,next)=>{
     //If no token is present in the request header return error. This means the user is not logged in.
     if (!token)
     return res.send({ status: false, msg: "token must be present" });
-
-    let decodedToken = jwt.verify(token, "Alone-But-Happy");
-
+    
+     
+        let decodedToken = jwt.verify(token, "Alone-But-Happy");
+      
     req.abc=decodedToken;
 
     if (!decodedToken)
@@ -22,11 +24,13 @@ const mid1= async (req,res,next)=>{
 }
 const mid2=async (req,res,next)=>{
   let blogId = req.params.blogId;
+  if(!isValidObjectId(blogId))
+  return res.status(401).send({status:false,msg:"not authorized"})
   let data= await blogModel.findById(blogId)
   if(req.abc.authorId==data.authorId)
   next();
   else
-  return res.send("not authorized")
+  return res.status(401).send({status:false,msg:"not authorized"})
 }
 module.exports.mid1=mid1
 module.exports.mid2=mid2

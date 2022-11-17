@@ -5,10 +5,10 @@ const createAuthor=async (req,res)=>{
     try{
     const data=req.body
     const savedData=await authorModel.create(data)
-    res.status(201).send({Created:savedData})
+    res.status(201).send({status:true,Created:savedData})
 }
 catch(error){
-    res.status(500).send({error:error.message})
+    res.status(500).send({status:false,error:error.message})
 }
 }
 const loginAuthor = async function (req, res) {
@@ -16,7 +16,7 @@ const loginAuthor = async function (req, res) {
     let password = req.body.password;
    
     let author = await authorModel.findOne({ email: userName, password: password });
-    if (!author)
+    if (!author)  
       return res.send({
         status: false,
         msg: "username or the password is not corerct",

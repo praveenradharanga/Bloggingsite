@@ -33,4 +33,4 @@ const blogSchema = new mongoose.Schema({
     },
  { timestamps: true });  // createdAt, updatedAt
 
-module.exports = mongoose.model('Bloger', blogSchema)
+module.exports = mongoose.model('Blog', blogSchema)

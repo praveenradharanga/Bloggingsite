@@ -5,21 +5,21 @@ const blogValidator=async (req,res,next)=>{
         return res.status(400).send({msg: "Author ID is not present"})
     }
     if(!isValidObjectId(req.body.authorId)){
-        return res.status(400).send({msg: "Author ID is not valid"})
+        return res.status(400).send({status:false,msg: "Author ID is not valid"})
     }
     const validAuthorIds= (await authorModel.find().select({_id:1})).map((author)=>author._id.toString())
 
     // return res.send({msg: typeof validAuthorIds[0]})
     
     if(!validAuthorIds.includes(req.body.authorId)){
-    return res.status(400).send({msg: "Author is not registered"})
+    return res.status(400).send({status:false,msg: "Author is not registered"})
     }
 
     if(req.body.authorId!=req.abc.authorId){
-        return res.status(400).send({msg: "Unauthorised"}) 
+        return res.status(400).send({status:false,msg: "Unauthorised"}) 
     }
 
-    const mandatoryFields=["title","body","tags","category","subcategory"]
+    let mandatoryFields=["title","body","tags","subcategory","category"]
     const isAvailable = (data)=>{
         if(!req.body[data]){
             return false
@@ -28,33 +28,37 @@ const blogValidator=async (req,res,next)=>{
     }
     for(let i of mandatoryFields){
         if( !isAvailable(i)){
-        return  res.status(400).send({err_msg:`${i} is not present`})
+        return  res.status(400).send({status:false,err_msg:`${i} is not present`})
         }
      }
      if(typeof req.body.tags!='object'){
-        return res.status(400).send({msg:"Please enter an array of tags"})
+        return res.status(400).send({status:false,msg:"Please enter an array of tags"})
      }
      if(req.body.tags.length==0){
-        return  res.status(400).send({err_msg:"Tags are empty"})
+        return  res.status(400).send({status:false,err_msg:"Tags are empty"})
      }
      if(typeof req.body.subcategory!='object'){
-        return res.status(400).send({msg:"Please enter an array of subcategory"})
+        return res.status(400).send({status:false,msg:"Please enter an array of subcategory"})
      }
      if(req.body.subcategory.length==0){
-        return  res.status(400).send({err_msg:"Subcategory is empty"})
+        return  res.status(400).send({status:false,err_msg:"Subcategory is empty"})
      }
 
      for(let i of req.body.tags){
         if(typeof i!='string'){
-            return res.status(400).send({msg:"Tags must contain strings"})
+            return res.status(400).send({status:false,msg:"Tags must contain strings"})
         }
      }
 
      for(let i of req.body.subcategory){
         if(typeof i!='string'){
-            return res.status(400).send({msg:"Subcategory must contain strings"})
+            return res.status(400).send({status:false,msg:"Subcategory must contain strings"})
         }
      }
+    mandatoryFields.splice(2,2)
+     for(let i of mandatoryFields){
+        req.body[i]=req.body[i].trim()
+    }
 
      next()
 

@@ -1,9 +1,7 @@
 const authorModel=require('../Models/authorModel')
 const autorValidator=async (req,res,next)=>{
     const mandatoryFields=["fname","lname","email","password"]
-    for(let i of mandatoryFields){
-        req.body[i]=req.body[i].trim()
-    }
+    
     const validate=(prop,regx)=>{
         
         if(!req.body[prop]){                     
@@ -19,20 +17,24 @@ const autorValidator=async (req,res,next)=>{
         }
     }
     for(let i of mandatoryFields){
+        req.body[i]=req.body[i].trim()
+    }
+    req.body.title=req.body.title.trim()
+    for(let i of mandatoryFields){
         if(i=='fname'||i=='lname'){
         if(!validate(i,/^[A-Za-z]+$/)){
-            return res.status(400).send({msg:`${i} not valid`})
+            return res.status(400).send({status:false,msg:`${i} not valid`})
         }
         }
         else if(i=='email'){
             if(!validate(i,/[a-z0-9]+@[a-z]+\.[a-z]{2,3}/)){
-                return res.status(400).send({msg:`${i} not valid`})
+                return res.status(400).send({status:false,msg:`${i} not valid`})
             } 
         }
         
         else{
-            if(!validate(i,/^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/)){
-                return res.status(400).send({msg:`${i} not valid use combination chracters,special symbols and digits 7-15 characters`})
+            if(!validate(i,/^(?=.*[A-Z0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/)){
+                return res.status(400).send({status:false,msg:`Check either you have entered wrong ${i} or not entered any ${i} at all`})
             } 
         }
     }
@@ -43,8 +45,10 @@ const autorValidator=async (req,res,next)=>{
        return  author.email
     })
     if(validEmail.includes(req.body.email)){
-    return res.status(400).send({msg:"Duplicate email"})
+    return res.status(400).send({status:false,msg:"Duplicate email"})
     }
+    
+    
     next()
 }
 module.exports.autorValidator=autorValidator
