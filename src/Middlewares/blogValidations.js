@@ -31,12 +31,29 @@ const blogValidator=async (req,res,next)=>{
         return  res.status(400).send({err_msg:`${i} is not present`})
         }
      }
-
+     if(typeof req.body.tags!='object'){
+        return res.status(400).send({msg:"Please enter an array of tags"})
+     }
      if(req.body.tags.length==0){
         return  res.status(400).send({err_msg:"Tags are empty"})
      }
+     if(typeof req.body.subcategory!='object'){
+        return res.status(400).send({msg:"Please enter an array of subcategory"})
+     }
      if(req.body.subcategory.length==0){
         return  res.status(400).send({err_msg:"Subcategory is empty"})
+     }
+
+     for(let i of req.body.tags){
+        if(typeof i!='string'){
+            return res.status(400).send({msg:"Tags must contain strings"})
+        }
+     }
+
+     for(let i of req.body.subcategory){
+        if(typeof i!='string'){
+            return res.status(400).send({msg:"Subcategory must contain strings"})
+        }
      }
 
      next()

@@ -196,14 +196,14 @@ const deleteBlogByQuery = async function (req, res) {
         if(!validAuthorIds.includes(id)){
         return res.status(400).send({msg: "Author is not registered"})
         }
-        let blog=await blogModel.updateMany({authorId:id,isDeleted:false},{$set:{isDeleted:true,deletedAt:new Date()}},{new:true}).populate('authorId')
+        let blog=await blogModel.updateMany({authorId:id,isDeleted:false},{$set:{isDeleted:true,deletedAt:new Date()}},{new:true})
         if(blog.modifiedCount==0)
         return res.status(404).send({status:false, msg:"sorry your request not found"})
         return res.status(200).send({status:true,data:blog})
       }
       else  if(category){
-        console.log(req.abc);
-        let allcat=await blogModel.updateMany({category:category,authorId:req.abc.authorId,isDeleted:false},{$set:{isDeleted:true,deletedAt:new Date()}},{new:true}).populate('authorId');
+       
+        let allcat=await blogModel.updateMany({category:category,authorId:req.abc.authorId,isDeleted:false},{$set:{isDeleted:true,deletedAt:new Date()}},{new:true});
         if(allcat.modifiedCount==0)
         return res.status(404).send({status:false, msg:"sorry your request not found"})
         else 
@@ -215,7 +215,7 @@ const deleteBlogByQuery = async function (req, res) {
         return res.send({msg:"No Blogs written by the logged in user"})
     }
         if(tags.indexOf(',')==-1){
-            tags=[tags]
+            tags=[tags] 
         }
         else{
         tags=tags.split(",")
