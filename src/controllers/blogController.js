@@ -36,8 +36,14 @@ const updateBlog = async (req,res)=>{
             }
         }
         else if(i=='isPusblished'){
+            if(updateDetails[i]==true){
             blog[i]=updateDetails[i]
             blog.publishedAt=new Date()
+            }
+            else{
+                blog[i]=updateDetails[i]
+                blog.publishedAt=""
+            }
         }
         else{
             blog[i]=updateDetails[i]
@@ -84,6 +90,7 @@ const getblog= async (req,res)=>{
     
     try
     {
+    
     let id=req.query.authorid
     let category=req.query.category
     let subcategory=req.query.subcategory
@@ -168,6 +175,11 @@ const getblog= async (req,res)=>{
             return res.status(404).send({status:false,msg:"No blogs available with the given tags"})
         }
         res.send({status:true,msg:filteredBlog,count:filteredBlog.length})
+    }
+
+    else{
+        const blogs=await blogModel.find({isDeleted:false,isPusblished:true})
+        res.status(200).send({status:true,msg:blogs})
     }
 
    }

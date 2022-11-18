@@ -1,5 +1,6 @@
 const authorModel=require('../Models/authorModel')
 const autorValidator=async (req,res,next)=>{
+    try{
     const mandatoryFields=["fname","lname","email","password"]
     
     const validate=(prop,regx)=>{
@@ -16,10 +17,12 @@ const autorValidator=async (req,res,next)=>{
         return true
         }
     }
+    try{
     for(let i of mandatoryFields){
         req.body[i]=req.body[i].trim()
     }
     req.body.title=req.body.title.trim()
+}catch(error){return res.status(400).send({status:false,msg:"Request body empty"})}
     for(let i of mandatoryFields){
         if(i=='fname'||i=='lname'){
         if(!validate(i,/^[A-Za-z]+$/)){
@@ -50,5 +53,9 @@ const autorValidator=async (req,res,next)=>{
     
     
     next()
+}
+catch(error){
+    res.status(500).send({status:false,msg:"Server error"})
+}
 }
 module.exports.autorValidator=autorValidator

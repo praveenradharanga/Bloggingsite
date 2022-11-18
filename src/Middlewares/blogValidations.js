@@ -1,6 +1,11 @@
 const authorModel=require('../Models/authorModel')
 const{isValidObjectId}=require('mongoose')
 const blogValidator=async (req,res,next)=>{
+    try{
+        
+        if(Object.keys(req.body).length==0){
+            return res.status(400).send({status:false,msg:"Request body is empty"})
+        }
     if(!req.body.authorId){
         return res.status(400).send({msg: "Author ID is not present"})
     }
@@ -61,6 +66,7 @@ const blogValidator=async (req,res,next)=>{
     }
 
      next()
+}catch(error){res.status(500).send({status:false,msg:"Something is wrong in your client request"})}
 
 }
 
