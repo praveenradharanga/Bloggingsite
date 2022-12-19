@@ -7,7 +7,7 @@ const mid1= async (req,res,next)=>{
     //If no token is present in the request header return error. This means the user is not logged in.
     if (!token)
     return res.send({ status: false, msg: "token must be present" });
-    
+      
      
         let decodedToken = jwt.verify(token, "Alone-But-Happy");
       
