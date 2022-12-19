@@ -3,7 +3,7 @@ const blogModel=require('../Models/blogModel')
 const authorModel=require('../Models/authorModel')
 //create blog
 const createBlog=async function(req,res){
-    try{
+    try{   
     const data=req.body;
      const createdData=await blogModel.create(data)
         return res.status(201).send({status:true,successful:createdData})
