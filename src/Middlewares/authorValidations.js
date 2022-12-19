@@ -4,7 +4,7 @@ const autorValidator=async (req,res,next)=>{
     const mandatoryFields=["fname","lname","email","password"]
     
     const validate=(prop,regx)=>{
-        
+          
         if(!req.body[prop]){                     
             return false
         }
