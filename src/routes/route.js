@@ -18,4 +18,4 @@ router.post("/blogs/create-author",authorValidations.autorValidator,createAuthor
 
 // ,auth.mid1,auth.mid2
 
-module.exports=router
+module.exports=router 
