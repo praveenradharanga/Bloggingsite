@@ -7,7 +7,7 @@ const blogValidator=async (req,res,next)=>{
             return res.status(400).send({status:false,msg:"Request body is empty"})
         }
     if(!req.body.authorId){
-        return res.status(400).send({msg: "Author ID is not present"})
+        return res.status(400).send({msg: "Author ID is not present"}) 
     }
     if(!isValidObjectId(req.body.authorId)){
         return res.status(400).send({status:false,msg: "Author ID is not valid"})
