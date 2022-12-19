@@ -10,6 +10,7 @@ const autorValidator=async (req,res,next)=>{
         }
         const result=req.body[prop].match(regx)
         
+        
         if(!result){
             return false
         }
